@@ -1,7 +1,7 @@
 from telegram import Bot, Update
 from telegram.ext import Dispatcher, CommandHandler, InlineQueryHandler
 
-from credentials import BOT_TOKEN, APP_URL
+from show_json_bot_test.settings import BOT_TOKEN, APP_URL
 from .handlers import COMMAND_HANDLERS, INLINE_HANDLERS
 
 
@@ -20,7 +20,10 @@ def setup_dispatcher() -> Dispatcher:
 
 def is_start_command(update: Update) -> bool:
     try:
-        return update.effective_message.entities[0]['type'] == 'bot_command'
+        return (
+            update.effective_message.text == "/start"
+            and update.effective_message.entities[0]["type"] == "bot_command"
+        )
     except (AttributeError, IndexError, KeyError):
         return False
 

@@ -2,3 +2,4 @@ venv
 .idea
 ngrok
 *.sqlite3
+.env

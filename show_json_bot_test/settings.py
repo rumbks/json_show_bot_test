@@ -9,10 +9,14 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
+from contextlib import suppress
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import environ
+from django.core.exceptions import ImproperlyConfigured
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -118,3 +122,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 CSRF_COOKIE_SECURE = True
+
+
+env = environ.Env()
+with suppress(ImproperlyConfigured):
+    environ.Env.read_env(str(Path.cwd() / ".env"))
+
+BOT_TOKEN = env('BOT_TOKEN')
+APP_URL = env('APP_URL')
