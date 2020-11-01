@@ -13,8 +13,7 @@ def telegram_request_handler(request: HttpRequest):
         return f"```\n{json.dumps(body, ensure_ascii=False, indent=1)}```"
     body = json.loads(request.body, object_pairs_hook=OrderedDict)
     update = telegram.Update.de_json(body, dispatcher.bot)
-    if is_start_command(update):
-        dispatcher.process_update(update)
-    else:
+    if not is_start_command(update):
         update.effective_user.send_message(text=prettify_json(body), parse_mode=ParseMode.MARKDOWN)
+    dispatcher.process_update(update)
     return JsonResponse({})

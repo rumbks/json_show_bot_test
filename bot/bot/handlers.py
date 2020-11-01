@@ -1,4 +1,10 @@
-from telegram import Update
+from telegram import (
+    Update,
+    InlineQueryResult,
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+)
+from telegram.ext import CallbackContext
 
 from bot.models import User
 
@@ -19,3 +25,14 @@ Enjoy! ☺️"""
     user.save()
 
     update.message.reply_text(GREETING)
+
+
+def inline(update: Update, context: CallbackContext):
+    results = [
+        InlineQueryResultArticle(
+            id="id", title=" f", input_message_content=InputTextMessageContent(" f")
+        )
+    ]
+    update.inline_query.answer(  # I have found a bug in python_telegram_bot API. answer method raises and exception when there's no results
+        results, switch_pm_text="Your json was sent to pm", switch_pm_parameter="start"
+    )

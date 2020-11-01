@@ -1,9 +1,8 @@
 from telegram import Bot, Update
-from telegram.ext import Dispatcher, CommandHandler
+from telegram.ext import Dispatcher, CommandHandler, InlineQueryHandler
 
 from credentials import BOT_TOKEN, APP_URL
-from .handlers import start
-from ..models import User
+from .handlers import start, inline
 
 
 def setup_dispatcher() -> Dispatcher:
@@ -11,6 +10,7 @@ def setup_dispatcher() -> Dispatcher:
     dispatcher = Dispatcher(bot=bot, update_queue=None)
 
     dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(InlineQueryHandler(inline))
 
     bot.setWebhook(APP_URL + "/bot/")
     return dispatcher
