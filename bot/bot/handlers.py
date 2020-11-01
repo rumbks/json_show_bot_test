@@ -1,2 +1,9 @@
+
 def start(update, context):
-    update.message.reply_text("Hi!")
+    GREETING = """🔸 @RumbksShowJsonBot v2020.11 - Bot returns json for all sent messages.
+
+Messages editing and inline queries are also supported.
+
+Enjoy! ☺️"""
+
+    update.message.reply_text(GREETING)
