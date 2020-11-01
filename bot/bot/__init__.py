@@ -12,7 +12,7 @@ def setup_dispatcher() -> Dispatcher:
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(InlineQueryHandler(inline))
 
-    bot.setWebhook(APP_URL + "/bot/")
+    bot.setWebhook(f"{APP_URL}/bot/")
     return dispatcher
 
 
