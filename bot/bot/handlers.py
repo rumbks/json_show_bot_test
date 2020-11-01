@@ -36,3 +36,6 @@ def inline(update: Update, context: CallbackContext):
     update.inline_query.answer(  # I have found a bug in python_telegram_bot API. answer method raises and exception when there's no results
         results, switch_pm_text="Your json was sent to pm", switch_pm_parameter="start"
     )
+
+COMMAND_HANDLERS = [start]
+INLINE_HANDLERS = [inline]

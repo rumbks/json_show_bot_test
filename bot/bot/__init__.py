@@ -2,15 +2,17 @@ from telegram import Bot, Update
 from telegram.ext import Dispatcher, CommandHandler, InlineQueryHandler
 
 from credentials import BOT_TOKEN, APP_URL
-from .handlers import start, inline
+from .handlers import COMMAND_HANDLERS, INLINE_HANDLERS
 
 
 def setup_dispatcher() -> Dispatcher:
     bot = Bot(BOT_TOKEN)
     dispatcher = Dispatcher(bot=bot, update_queue=None)
 
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(InlineQueryHandler(inline))
+    for handler in COMMAND_HANDLERS:
+        dispatcher.add_handler(CommandHandler(handler.__name__, handler))
+    for handler in INLINE_HANDLERS:
+        dispatcher.add_handler(InlineQueryHandler(handler))
 
     bot.setWebhook(f"{APP_URL}/bot/")
     return dispatcher
@@ -24,3 +26,5 @@ def is_start_command(update: Update) -> bool:
 
 
 dispatcher = setup_dispatcher()
+
+HANDLERS = [*COMMAND_HANDLERS]
