@@ -1,2 +1,4 @@
 venv
 .idea
+ngrok
+*.sqlite3
