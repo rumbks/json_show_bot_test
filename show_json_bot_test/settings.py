@@ -14,6 +14,7 @@ from contextlib import suppress
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import dj_database_url
 import environ
 from django.core.exceptions import ImproperlyConfigured
 
@@ -74,17 +75,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'show_json_bot_test.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -134,3 +124,16 @@ with suppress(ImproperlyConfigured):
 
 BOT_TOKEN = env('BOT_TOKEN')
 APP_URL = env('APP_URL')
+
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+DATABASE_URL = env("DATABASE_URL", default=None)
+
+DATABASES = {
+    "default": dj_database_url.config(default=DATABASE_URL)
+    if DATABASE_URL
+    else {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
