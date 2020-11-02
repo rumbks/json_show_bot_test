@@ -15,14 +15,16 @@ def start(update: Update, context):
 Messages editing and inline queries are also supported.
 
 Enjoy! ☺️"""
-    user = User(
-        **{
+    user_dict = update.effective_user.to_dict()
+    User.objects.update_or_create(
+        id=user_dict["id"],
+        defaults={
             key: value
-            for key, value in update.effective_user.to_dict().items()
-            if key in [field.name for field in User._meta.get_fields()]
-        }
+            for key, value in user_dict.items()
+            if key
+            in [field.name for field in User._meta.get_fields() if field.name != "id"]
+        },
     )
-    user.save()
 
     update.message.reply_text(GREETING)
 
